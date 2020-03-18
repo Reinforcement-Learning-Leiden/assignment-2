@@ -145,3 +145,14 @@ class HexBoard:
 
     def get_board_size(self):
         return self.size
+
+    
+    def DoMove(self, move,color):
+        if move not in self.get_move_list():
+            raise ValueError(
+                "move {0} on board {1} is not legal".format(move, self.board)
+            )
+        new_board = self.place(move,color)
+        color = self.get_opposite_color(color)
+
+        return new_board,color

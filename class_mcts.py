@@ -52,9 +52,12 @@ class Node:
         best_state = self.children[np.argmax(UCTs)]
         return best_state
 
-    # copied
+    # CHANGE HERE
     def playout_policy(self, possible_moves):
-        return possible_moves[np.random.randint(len(possible_moves))]
+        if len(possible_moves) <= 1:
+            return possible_moves[0]
+        else:
+            return possible_moves[np.random.randint(len(possible_moves))]  # randit returns a random int between [low,high) -> lower-bound inclusive & higher-bound exclusive
 
 
     # TODO: Fix color and test
@@ -75,7 +78,7 @@ class Node:
         #     return
         current_playout_state = copy.deepcopy(self.state)
         current_color = self.color
-        # TODO: what is wrong with boardObject.is_game_over()?
+        
         while not (current_playout_state.is_game_over()): # dict has no attribute is_game_over?
             possible_moves = current_playout_state.get_move_list()
             action = self.playout_policy(possible_moves)

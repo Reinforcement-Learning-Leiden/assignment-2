@@ -3,17 +3,17 @@ class HexBoard:
     RED = 2
     EMPTY = 3
 
-    cutoffs = 0
-    dCutoffs = 0  # cutoffs made by the aplphabeta with Dijkstra
-    d4Cutoffs = 0
-    rCutoffs = 0  # cutoffs made by the alphabeta with random eval
-    total_dCutoffs = 0
-    total_rCutoffs = 0
-    total_d4Cutoffs = 0
+    #cutoffs = 0
+    #dCutoffs = 0  # cutoffs made by the aplphabeta with Dijkstra
+    #d4Cutoffs = 0
+    #rCutoffs = 0  # cutoffs made by the alphabeta with random eval
+    #total_dCutoffs = 0
+    #total_rCutoffs = 0
+    #total_d4Cutoffs = 0
 
-    rTime = 0
-    dTime = 0
-    d4Time = 0
+    #rTime = 0
+    #dTime = 0
+    #d4Time = 0
 
     def __init__(self, board_size):
         self.board = {}
@@ -152,7 +152,8 @@ class HexBoard:
             raise ValueError(
                 "move {0} on board {1} is not legal".format(move, self.board)
             )
-        new_board = self.place(move,color)
+        new_state = self  # a new hex_board created to retain the board and the functions for the expanded child
+        new_state = self.place(move,color)
         color = self.get_opposite_color(color)
 
-        return new_board,color
+        return new_state,color

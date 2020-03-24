@@ -14,7 +14,7 @@ class Node:
         self.visited = visited  # num of visits
         self.win = win # Not needed?
         self.children = [] #dict()
-        self.untriedMoves_list = [] # NONE?
+        self.untriedMoves_list = None # Needs to be None to distinguish between initial state and when all moves tried
         self.color = color # the color that node plays
 
 
@@ -26,15 +26,15 @@ class Node:
     #         sim_board.place(move, self.color)
     #         self.children.update({sim_board:{'win':0, 'visited':0}})
 
-    def getChildren(self):
-        return self.children
+    #def getChildren(self):
+    #    return self.children
 
 
     def untriedMoves(self):
         """
         in the beginning, all the children are untried/unexpanded, as the procedure goes on, children are expanded onebyone
         """
-        if len(self.untriedMoves_list) == 0:
+        if self.untriedMoves_list is None:
             self.untriedMoves_list = self.state.get_move_list()
         return self.untriedMoves_list
 
@@ -47,11 +47,15 @@ class Node:
         # calculate UCT of all children and select the highest
         UCTs = []
         for i in range(len(self.children)):
-            UCTs[i] =  (self.children[i].win/self.children[i].visited) + \
-                      (MCTS._Cp * math.sqrt(np.log(self.visited/ self.children[i].visited)))
+            #UCTs[i] =  (self.children[i].win/self.children[i].visited) + \
+            #          (MCTS._Cp * math.sqrt(np.log(self.visited/ self.children[i].visited)))
+            
+            # children is a list of tuples (childnode, action). To get the child node children[i][0] is used
+            UCTs.append((self.children[i][0].win / self.children[i][0].visited) + \
+                      (MCTS._Cp * math.sqrt(np.log(self.visited / self.children[i][0].visited))))
 
-        best_state = self.children[np.argmax(UCTs)]
-        return best_state
+        best_state, best_action = self.children[np.argmax(UCTs)]
+        return best_state, best_action
 
     # CHANGE HERE
     def playout_policy(self, possible_moves):
@@ -70,8 +74,8 @@ class Node:
         print(f"Next state in method 'expand' = {next_state}") # The issue lies here, next state is null
         child_node = Node(next_state,color, parent=self) # child plays the opposite color
         print("Print me after the child node is created")
-        self.children.append(child_node)
-        return child_node
+        self.children.append((child_node,action))
+        return child_node, action
 
 
     def is_terminal_node(self):
@@ -85,7 +89,7 @@ class Node:
         print(f"CURRENT PLAYOUT: {self.state}")
         current_color = self.color
         
-        while not (current_playout_state.is_game_over()): # dict has no attribute is_game_over?
+        while not (current_playout_state.is_game_over()): 
             possible_moves = current_playout_state.get_move_list()
             action = self.playout_policy(possible_moves)
             current_playout_state, current_color = current_playout_state.DoMove(action, current_color)# TODO: COLOR!!!!!

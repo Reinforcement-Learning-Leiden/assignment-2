@@ -68,7 +68,8 @@ def main_Human_AI(bSize):
             board.print()
             break
         print(f"AAHAHHH BOARD ={ board }")
-        move_program = MCTS(board,board.BLUE,itermax)
+        # change here: used to return a node, we want the move that leads to this node
+        best_node, move_program = MCTS(board,board.BLUE,itermax)
         print("THIS SHOULD PRINT")
         board.place(move_program, board.BLUE)
         board.print()
@@ -92,16 +93,16 @@ def main_AI_AI(bSize):
         #     else:
         #         move_blue = MCTS.MCTS(board,board.BLUE, itermax)
 
-            move_blue = MCTS.MCTS(board, board.BLUE, itermax)
-            board = MCTS._update_board(board, move_blue, board.BLUE)
+            best_node_blue, move_blue = MCTS(board, board.BLUE, itermax)
+            board.place(move_blue,board.BLUE)
             board.print()
             if board.is_game_over(): # TODO: add condition for game over without no winning (board full)
                 print(win_message_blue)
                 board.print()
             # break
                 return "blue" #???
-            move_red = MCTS.MCTS(board, board.RED, itermax)
-            board = MCTS._update_board(board, move_red, board.RED) # Using false here and true for the alphabeta is a bit confusing, but we need it to make moves for red here.
+            best_node_red, move_red = MCTS(board, board.RED, itermax)
+            board.place(move_red, board.RED)
             board.print()
             if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
                 print(win_message_red)

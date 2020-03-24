@@ -7,15 +7,16 @@ _Cp = 1
 
 
 def exploited_tree_policy(node:Node,color):
-    current_node = copy.deepcopy(node)
+    current_node = node #copy.deepcopy(node) # if copied, does it retain the children?
+    current_action = None # used to keep the action that leads to the best childnode
     print(f"CURRENT NODE in 'exploited_tree_policy' method: {current_node}")
     # while travesring the tree, if the selected node not fully expanded, expand one child, if fully expanded select one child
     while not current_node.is_terminal_node():
         if not current_node.is_fully_expanded():
             return current_node.expand(color)
         else:
-            current_node = current_node.selectChildUCT()
-    return current_node
+            current_node, current_action = current_node.selectChildUCT()
+    return current_node, current_action
 
 
 def MCTS(board: HexBoard,color, itermax = 1000 ):
@@ -24,12 +25,13 @@ def MCTS(board: HexBoard,color, itermax = 1000 ):
 
     for _ in range(0, itermax):
         # select and expand
-        v = exploited_tree_policy(rootnode,color)
+        v, a = exploited_tree_policy(rootnode,color) # v = node, a = action that leads to node v
         # playout
         reward = v.playout()
         # backpropagate
         v.backpropagate(reward)
     # to select best child go for exploitation only
+    # returns (bestnode, bestmove)
     return rootnode.selectChildUCT()
 
     # for i in range (itermax):

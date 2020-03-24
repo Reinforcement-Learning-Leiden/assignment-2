@@ -8,6 +8,7 @@ import copy
 class Node:
 
     def __init__(self, state: HexBoard,color, parent = None, visited=0, win =0): # TODO Color?
+        print(f"INITIALIZATION WITH STATE = {state}")
         self.state = state
         self.parent = parent
         self.visited = visited  # num of visits
@@ -63,8 +64,12 @@ class Node:
     # TODO: Fix color and test
     def expand(self, color):
         action = self.untriedMoves_list.pop()
+        # FIXME: DoMove() method is currently NOT returning the appropriate next state
         next_state, color = self.state.DoMove(action, color) # right color? when opponent?
+        print(f"IS COLOR WORKING? {color}")
+        print(f"Next state in method 'expand' = {next_state}") # The issue lies here, next state is null
         child_node = Node(next_state,color, parent=self) # child plays the opposite color
+        print("Print me after the child node is created")
         self.children.append(child_node)
         return child_node
 
@@ -77,6 +82,7 @@ class Node:
         #     print("state is none")
         #     return
         current_playout_state = copy.deepcopy(self.state)
+        print(f"CURRENT PLAYOUT: {self.state}")
         current_color = self.color
         
         while not (current_playout_state.is_game_over()): # dict has no attribute is_game_over?

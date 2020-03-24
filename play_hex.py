@@ -1,6 +1,6 @@
 
 from hex_skeleton import HexBoard
-import MCTS
+from MCTS import MCTS
 
 
 win_message_human = "******************************************\n\
@@ -61,16 +61,18 @@ def main_Human_AI(bSize):
         while not move_human in board.get_move_list():
             print('move is not legal, please choose another cell')
             move_human = human_input(board.get_board_size())
-        board = MCTS._update_board(board, move_human , board.RED)
+        board.place(move_human, board.RED)
         board.print()
-        if board.is_game_over(): # TODO: add condition for game over without no winning (board full)
+        if board.is_game_over(): 
             print(win_message_human)
             board.print()
             break
-        move_program = MCTS.MCTS(board,board.BLUE,itermax)
-        board = MCTS._update_board(board, move_program, board.BLUE)
+        print(f"AAHAHHH BOARD ={ board }")
+        move_program = MCTS(board,board.BLUE,itermax)
+        print("THIS SHOULD PRINT")
+        board.place(move_program, board.BLUE)
         board.print()
-        if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
+        if board.is_game_over(): 
             print(loss_message_human)
             board.print()
             break
@@ -84,12 +86,13 @@ def main_AI_AI(bSize):
     board = HexBoard(bSize)
     num_of_cells = board.get_board_size() * board.get_board_size()
     for nc in range(int(num_of_cells/2)):
-        ## Just a small heuristic for opening strategy, you can test this if you want. But then you have to comment the move_blue below out too
-            if board.size % 2 != 0 and len(board.get_move_list()) == len(board.get_all_vertices()): # If it's the first move and the board is uneven
-                move_blue = (board.size // 2, board.size // 2) # Always place the first move in the middle
-            else:
-                move_blue = MCTS.MCTS(board,board.BLUE, itermax)
+        # ## Just a small heuristic for opening strategy, you can test this if you want. But then you have to comment the move_blue below out too
+        #     if board.size % 2 != 0 and len(board.get_move_list()) == len(board.get_all_vertices()): # If it's the first move and the board is uneven
+        #         move_blue = (board.size // 2, board.size // 2) # Always place the first move in the middle
+        #     else:
+        #         move_blue = MCTS.MCTS(board,board.BLUE, itermax)
 
+            move_blue = MCTS.MCTS(board, board.BLUE, itermax)
             board = MCTS._update_board(board, move_blue, board.BLUE)
             board.print()
             if board.is_game_over(): # TODO: add condition for game over without no winning (board full)

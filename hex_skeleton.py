@@ -1,3 +1,5 @@
+import copy
+
 class HexBoard:
     BLUE = 1
     RED = 2
@@ -152,8 +154,12 @@ class HexBoard:
             raise ValueError(
                 "move {0} on board {1} is not legal".format(move, self.board)
             )
-        new_state = self  # a new hex_board created to retain the board and the functions for the expanded child
-        new_state = self.place(move,color)
+        #NOTE: If you want to make a new hexboard object, you have to make a deepcopy, or else you just reference the same object.
+        new_state = copy.deepcopy(self)  # a new hex_board created to retain the board and the functions for the expanded child
+        # new_state = self.place(move, color) #NOTE: THIS IS WRONG, board.place() does not return anything!!
+        new_state.place(move,color) 
+        #FIXME: Now that this works, we can see the next error: ValueError: attempt to get argmax of an empty sequence
+        # This is our next step then! :)
         color = self.get_opposite_color(color)
 
         return new_state,color

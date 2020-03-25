@@ -10,7 +10,7 @@ _Cp = 1
 def exploited_tree_policy(node:Node,color):
     current_node = node #copy.deepcopy(node) # if copied, does it retain the children?
     current_action = None # used to keep the action that leads to the best childnode
-    print(f"CURRENT NODE in 'exploited_tree_policy' method: {current_node}")
+    #print(f"CURRENT NODE in 'exploited_tree_policy' method: {current_node}")
     # while travesring the tree, if the selected node not fully expanded, expand one child, if fully expanded select one child
     while not current_node.is_terminal_node():
         if not current_node.is_fully_expanded():

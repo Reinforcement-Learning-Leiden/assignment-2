@@ -4,6 +4,7 @@ import trueskill as ts
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt2
 from transposition_table import TranspositionTable as TT
+from play_hex import boardSize
 
 from hex_skeleton import HexBoard
 
@@ -16,7 +17,7 @@ DIJKSTRA_DEAPTH: int = 1
 ###############
 
 def main():
-    board = HexBoard(BOARD_SIZE_TTID)
+    board = HexBoard(boardSize) #BOARD_SIZE_TTID
     num_of_cells = board.get_board_size() * board.get_board_size()
     TT.cutoffs = 0
     HexBoard.d4Cutoffs = 0

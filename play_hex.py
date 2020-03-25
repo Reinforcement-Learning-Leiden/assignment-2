@@ -21,6 +21,7 @@ win_message_red = "******************************************\n\
 
 # number of iterations for MCTS Algorithm
 itermax = 1000
+boardSize = 6
 
 
 #TODO: test

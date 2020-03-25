@@ -68,10 +68,10 @@ def main_Human_AI(bSize):
             print(win_message_human)
             board.print()
             break
-        print(f"AAHAHHH BOARD ={ board }")
+        #print(f"AAHAHHH BOARD ={ board }")
         # change here: used to return a node, we want the move that leads to this node
-        best_node, move_program = MCTS(board,board.BLUE,itermax)
-        print("THIS SHOULD PRINT")
+        best_node, move_program = MCTS(board,board.BLUE,itermax)#, max_seconds = 15
+        #print("THIS SHOULD PRINT")
         board.place(move_program, board.BLUE)
         board.print()
         if board.is_game_over(): 
@@ -93,8 +93,8 @@ def main_AI_AI(bSize):
         #         move_blue = (board.size // 2, board.size // 2) # Always place the first move in the middle
         #     else:
         #         move_blue = MCTS.MCTS(board,board.BLUE, itermax)
-
-            best_node_blue, move_blue = MCTS(board, board.BLUE, itermax)
+            # if max_seconds provided, the MCTS function plays upon time only and overlooks itermax
+            best_node_blue, move_blue = MCTS(board, board.BLUE, itermax) #, max_seconds = 15
             board.place(move_blue,board.BLUE)
             board.print()
             if board.is_game_over(): # TODO: add condition for game over without no winning (board full)
@@ -102,7 +102,8 @@ def main_AI_AI(bSize):
                 board.print()
             # break
                 return "blue" #???
-            best_node_red, move_red = MCTS(board, board.RED, itermax)
+            
+            best_node_red, move_red = MCTS(board, board.RED, itermax)#, max_seconds = 15)
             board.place(move_red, board.RED)
             board.print()
             if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
@@ -114,8 +115,8 @@ def main_AI_AI(bSize):
 
 if __name__ == '__main__':
 #     #call main for  AI-vs-AI or human-vs-AI
-     main_Human_AI(4) #
-     #main_Human_AI(4)
+     main_Human_AI(boardSize) #
+     #main_Human_AI(boardSize)
 
 
 

@@ -4,10 +4,11 @@ import copy
 from hex_skeleton import HexBoard
 from transposition_table import TranspositionTable
 from random import choice
-from idtt_ranking import BOARD_SIZE_TTID
+#from idtt_ranking import BOARD_SIZE_TTID
+from play_hex import boardSize
 
 _INF: float = 99999.0
-_board = HexBoard(BOARD_SIZE_TTID)
+_board = HexBoard(boardSize) #BOARD_SIZE_TTID
 ttable = TranspositionTable(_board)
 
 

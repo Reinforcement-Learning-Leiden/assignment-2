@@ -2,6 +2,7 @@ import hex_skeleton as HexBoard
 from random import choice
 from class_mcts import Node
 import copy
+import time
 
 _Cp = 1
 
@@ -19,62 +20,34 @@ def exploited_tree_policy(node:Node,color):
     return current_node, current_action
 
 
-def MCTS(board: HexBoard,color, itermax = 1000 ):
+def MCTS(board: HexBoard,color, itermax = 1000 , max_seconds = None ):
     #board.color = color
     rootnode = Node(state=board, color = color)
+    t = time.time()
+    
+    if max_seconds is not None:
+        while not time.time() - t >= max_seconds:
+            # select and expand
+            v, a = exploited_tree_policy(rootnode, color)  # v = node, a = action that leads to node v
+            # playout
+            reward = v.playout()
+            # backpropagate
+            v.backpropagate(reward)
+            # to select best child go for exploitation only
+            # returns (bestnode, bestmove)
+        print("time to calculate best action in time mode: ", str(time.time()-t))
+        return rootnode.selectChildUCT()
+    else: # if max_seconds is None (not provided by the user), run the algorithm by itermax    
+        for _ in range(0, itermax):
+            # select and expand
+            v, a = exploited_tree_policy(rootnode,color) # v = node, a = action that leads to node v
+            # playout
+            reward = v.playout()
+            # backpropagate
+            v.backpropagate(reward)
+        # to select best child go for exploitation only
+        # returns (bestnode, bestmove)
+        print("time to calculate best action in iteration mode: " ,str(time.time() - t))
+        return rootnode.selectChildUCT()
 
-    for _ in range(0, itermax):
-        # select and expand
-        v, a = exploited_tree_policy(rootnode,color) # v = node, a = action that leads to node v
-        # playout
-        reward = v.playout()
-        # backpropagate
-        v.backpropagate(reward)
-    # to select best child go for exploitation only
-    # returns (bestnode, bestmove)
-    return rootnode.selectChildUCT()
-
-    # for i in range (itermax):
-    #     node = rootnode # in each iteration the 4 actions are executed from the root
-    #     state = copy.deepcopy(board) # deep copy instead of clone
-    #
-    #     # SELECT
-    #     while node.untriedMoves == [] and node.children != []:
-    #         node = node.selectChildUCT()
-    #         state, color = state.DoMove(node, color) ###????????????
-    #
-    #     # EXPAND
-    #     if node.untriedMoves != []: # we can expand node
-    #         # m = choice(node.untriedMoves)
-    #         # state, color = state.DoMove(m, color)
-    #         # node = node.addChild(m,state) # add node m to the children of node state
-    #         node = node.expand(color)
-    #
-    #     # PLAYOUT
-    #     # while not node.is_terminal_node(): # state is nonterminal
-    #     #     state.DoMove(choice(state.GetMoves()))
-    #     reward = node.playout()
-    #
-    #     #BACKPROPAGATE
-    #     while node != None:
-    #         # node.update(state.getResult(node.moved))
-    #         # node = node.parentNode
-    #         node.backpropagate(reward)
-    #
-    # # return the best move
-    # return sorted(rootnode.children, key= lambda c: c.visited)[-1].move
-
-
-
-
-def _update_board(board: HexBoard, move, color) -> HexBoard:
-    """
-    Makes a deep copy of the board and updates the board state on that copy.
-    This makes it so that we don't need to use an undo move function.
-    The reason for using deepcopy is because python passes objects by reference
-    if you use the "=" operator
-    """
-    board = copy.deepcopy(board)
-    board.place(move, color)
-    return board
-
+    

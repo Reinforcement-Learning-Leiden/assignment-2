@@ -18,18 +18,6 @@ class Node:
         self.color = color # the color that node plays
 
 
-
-    # def setChildren(self):
-    #     legal_moves = self.state.get_move_list()
-    #     for move in legal_moves:
-    #         sim_board = copy.deepcopy(self.state)
-    #         sim_board.place(move, self.color)
-    #         self.children.update({sim_board:{'win':0, 'visited':0}})
-
-    #def getChildren(self):
-    #    return self.children
-
-
     def untriedMoves(self):
         """
         in the beginning, all the children are untried/unexpanded, as the procedure goes on, children are expanded onebyone

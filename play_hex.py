@@ -124,7 +124,7 @@ def main_AI_AI(bSize):
             return "blue"  # ???
 
         best_node_red, move_red = MCTS(
-            board, board.RED, itermax)  # , max_seconds = 15)
+            board, board.RED, Cp, itermax)  # , max_seconds = 15)
         board.place(move_red, board.RED)
         board.print()
         if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
@@ -137,7 +137,8 @@ def main_AI_AI(bSize):
 if __name__ == '__main__':
     #     #call main for  AI-vs-AI or human-vs-AI
 
-    main_Human_AI(boardSize)
+    #main_Human_AI(boardSize)
+    main_AI_AI(boardSize)
 
     # # For test vs random player
     # scores = []

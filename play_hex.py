@@ -23,6 +23,10 @@ win_message_red = "******************************************\n\
 itermax = 1000
 boardSize = 6
 
+def randomMove(board:HexBoard):
+    move_list = board.get_move_list()
+    rand_move = move_list[np.random.randint(len(move_list))]
+    return rand_move
 
 #TODO: test
 def human_input(size_of_board):
@@ -33,14 +37,14 @@ def human_input(size_of_board):
             x, y = input_user.split(',')
         else:
             x, y = input_user.split()
-            x = int(x)
-            y = int(y)
-            if x in range(size_of_board) and y in range(size_of_board):
-                coordinates = (x, y)
-                return coordinates
-            else:
-                print('coordinates (', x, ',', y, ') are not in range')
-                return
+        x = int(x)
+        y = int(y)
+        if x in range(size_of_board) and y in range(size_of_board):
+            coordinates = (x, y)
+            return coordinates
+        else:
+            print('coordinates (', x, ',', y, ') are not in range')
+            return
     except:
         print('please input the coordinates in the form of \'x,y\' or \'x y\'')
         return

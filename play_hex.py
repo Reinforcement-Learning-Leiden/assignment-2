@@ -21,6 +21,8 @@ win_message_red = "******************************************\n\
 
 # number of iterations for MCTS Algorithm
 itermax = 1000
+Cp = 1 # exploration/exploitation tradeoff for MCTS
+max_seconds = 10 # to be used for the fixed-time experiments
 boardSize = 6
 
 def randomMove(board:HexBoard):
@@ -63,7 +65,7 @@ def main_Human_AI(bSize):
 
         # change here: used to return a node, we want the move that leads to this node
         best_node, move_program = MCTS(
-            board, board.BLUE, itermax)  # , max_seconds = 15
+            board, board.BLUE, Cp, itermax)  # , max_seconds = 15
         board.place(move_program, board.BLUE)
         board.print()
         if board.is_game_over():
@@ -108,11 +110,11 @@ def main_AI_AI(bSize):
         #     if board.size % 2 != 0 and len(board.get_move_list()) == len(board.get_all_vertices()): # If it's the first move and the board is uneven
         #         move_blue = (board.size // 2, board.size // 2) # Always place the first move in the middle
         #     else:
-        #         move_blue = MCTS.MCTS(board,board.BLUE, itermax)
+        #         move_blue = MCTS.MCTS(board,board.BLUE, Cp, itermax)
             # if max_seconds provided, the MCTS function plays upon time only and overlooks itermax
         print("AI is thinking...")
         best_node_blue, move_blue = MCTS(
-            board, board.BLUE, itermax)  # , max_seconds = 15
+            board, board.BLUE, Cp, itermax)  # , max_seconds = 15
         board.place(move_blue, board.BLUE)
         board.print()
         if board.is_game_over():  # TODO: add condition for game over without no winning (board full)

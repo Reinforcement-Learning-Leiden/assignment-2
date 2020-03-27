@@ -10,10 +10,11 @@ from hex_skeleton import HexBoard
 
 ### GLOBALS ###
 #BLUE_SEC_TO_THINK: int = 1
-RED_SEC_TO_THINK: int = 10
+RED_SEC_TO_THINK: int = 3
 NUMBER_OF_GAMES: int = 120
-itermax = 1000 # number of iterations for the MCTS algorithm
+itermax = 3000 # number of iterations for the MCTS algorithm
 MAX_SECONDS_MCTS = None #Choose the number of seconds MCTS is allowed to search, else None
+Cp=1
 ###############
 start_time=time.time()
 bWins=0
@@ -25,7 +26,7 @@ def main():
 
     for _ in range(int(num_of_cells/2)):
 
-        best_node_blue, move_blue = MCTS(board, board.BLUE, itermax, max_seconds=MAX_SECONDS_MCTS)
+        best_node_blue, move_blue = MCTS(board, board.BLUE, itermax, Cp, max_seconds=MAX_SECONDS_MCTS)
         board.place(move_blue, board.BLUE)
         board.print()
         if board.is_game_over():

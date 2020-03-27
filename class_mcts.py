@@ -7,7 +7,7 @@ import copy
 
 class Node:
 
-    def __init__(self, state: HexBoard, color, parent=None, visited=0, win=0):  # TODO Color?
+    def __init__(self, state: HexBoard, color, _Cp = 1, parent=None, visited=0, win=0):  # TODO Color?
         #print(f"INITIALIZATION WITH STATE = {state}")
         self.state = state
         self.parent = parent
@@ -17,6 +17,7 @@ class Node:
         # Needs to be None to distinguish between initial state and when all moves tried
         self.untriedMoves_list = None
         self.color = color  # the color that node plays
+        self._Cp = _Cp
 
     def untriedMoves(self):
         """
@@ -37,7 +38,7 @@ class Node:
 
             # children is a list of tuples (childnode, action). To get the child node children[i][0] is used
             UCTs.append((self.children[i][0].win / self.children[i][0].visited) +
-                        (MCTS._Cp * math.sqrt(np.log(self.visited / self.children[i][0].visited))))
+                        (self._Cp * math.sqrt(np.log(self.visited / self.children[i][0].visited))))
 
         best_state, best_action = self.children[np.argmax(UCTs)]
         return best_state, best_action

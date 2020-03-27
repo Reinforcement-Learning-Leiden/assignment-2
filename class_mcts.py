@@ -72,25 +72,7 @@ class Node:
     def is_terminal_node(self):
         return self.state.is_game_over()
 
-    # def playout(self):
-    #     print("PLAYOUT")
-    #     # if self.state is None:
-    #     #     print("state is none")
-    #     #     return
-    #     current_playout_state = copy.deepcopy(self.state)
-    #     #print(f"CURRENT PLAYOUT: {self.state}")
-    #     current_color = self.color
-
-    #     while not (current_playout_state.is_game_over()):
-    #         possible_moves = current_playout_state.get_move_list()
-    #         action = self.playout_policy(possible_moves)
-    #         current_playout_state, current_color = current_playout_state.DoMove(
-    #             action, current_color)  # TODO: COLOR!!!!!
-    #     # TODO: COLOR correct?
-    #     if current_playout_state.check_win(self.color):
-    #         return 1
-    #     return 0
-
+    
     def playout(self):
         current_playout_state = copy.deepcopy(self.state)
         current_color = self.color

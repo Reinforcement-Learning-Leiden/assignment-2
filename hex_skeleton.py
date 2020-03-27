@@ -5,17 +5,6 @@ class HexBoard:
     RED = 2
     EMPTY = 3
 
-    #cutoffs = 0
-    #dCutoffs = 0  # cutoffs made by the aplphabeta with Dijkstra
-    #d4Cutoffs = 0
-    #rCutoffs = 0  # cutoffs made by the alphabeta with random eval
-    #total_dCutoffs = 0
-    #total_rCutoffs = 0
-    #total_d4Cutoffs = 0
-
-    #rTime = 0
-    #dTime = 0
-    #d4Time = 0
 
     def __init__(self, board_size):
         self.board = {}

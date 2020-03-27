@@ -9,12 +9,12 @@ import time
 from hex_skeleton import HexBoard
 
 ### GLOBALS ###
-#BLUE_SEC_TO_THINK: int = 1
-RED_SEC_TO_THINK: int = 5
-NUMBER_OF_GAMES: int = 12
-itermax = 3000 # number of iterations for the MCTS algorithm. If MAX_SECONDS_MCTS != None this is ignored
-MAX_SECONDS_MCTS = 5 #Choose the number of seconds MCTS is allowed to search, else None
-Cp=1
+DEAPTH_LIM=5
+RED_SEC_TO_THINK: int = 3
+NUMBER_OF_GAMES: int = 100
+itermax = 100 # number of iterations for the MCTS algorithm. If MAX_SECONDS_MCTS != None this is ignored
+MAX_SECONDS_MCTS = None #Choose the number of seconds MCTS is allowed to search, else None
+Cp=0
 ###############
 start_time=time.time()
 
@@ -34,7 +34,7 @@ def main():
             board.print()
             return "blue"
         move_red = tt.iterative_deepening(
-            board, is_max=False, max_seconds=RED_SEC_TO_THINK, depth_lim=15, show_AI=False)
+            board, is_max=True, max_seconds=RED_SEC_TO_THINK, depth_lim=DEAPTH_LIM, show_AI=False)
         board.place(move_red, board.RED)
         board.print()
         if board.is_game_over():

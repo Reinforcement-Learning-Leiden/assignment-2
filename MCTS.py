@@ -4,7 +4,7 @@ from class_mcts import Node
 import copy
 import time
 
-_Cp = 0
+#_Cp = 0
 
 
 def exploited_tree_policy(node: Node, color):
@@ -21,9 +21,9 @@ def exploited_tree_policy(node: Node, color):
     return current_node, current_action
 
 
-def MCTS(board: HexBoard, color, itermax=1000, max_seconds=None):
+def MCTS(board: HexBoard, color, itermax=1000, Cp = 1, max_seconds=None):
     #board.color = color
-    rootnode = Node(state=board, color=color)
+    rootnode = Node(state=board, color=color, _Cp = Cp)
     t = time.time()
 
     if max_seconds is not None:

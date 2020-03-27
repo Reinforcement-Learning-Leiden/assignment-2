@@ -1,7 +1,7 @@
 
 from hex_skeleton import HexBoard
 from MCTS import MCTS
-
+from random import randint
 
 win_message_human = "******************************************\n\
 *               YOU WIN                  *\n\
@@ -45,43 +45,55 @@ def human_input(size_of_board):
         print('please input the coordinates in the form of \'x,y\' or \'x y\'')
         return
 
-
-
-
-#TODO: 
+# TODO:
 ##########################################################
 #        CODE BLOCK FOR HUMAN (RED) VS AI (BLUE)         #
 ##########################################################
+
 
 def main_Human_AI(bSize):
     print('the program plays Blue(LeftToRight) and the user plays Red(UpToButtom)')
     board = HexBoard(bSize)
     num_of_cells = board.get_board_size() * board.get_board_size()
     for nc in range(int(num_of_cells/2)):
+
+        # change here: used to return a node, we want the move that leads to this node
+        best_node, move_program = MCTS(
+            board, board.BLUE, itermax)  # , max_seconds = 15
+        board.place(move_program, board.BLUE)
+        board.print()
+        if board.is_game_over():
+            print(loss_message_human)
+            board.print()
+            break
+            # return "mcts" # uncomment for winrate test against random player
+
         move_human = human_input(board.get_board_size())
         while not move_human in board.get_move_list():
             print('move is not legal, please choose another cell')
             move_human = human_input(board.get_board_size())
         board.place(move_human, board.RED)
         board.print()
-        if board.is_game_over(): 
+        if board.is_game_over():
             print(win_message_human)
             board.print()
+            # return "human"
             break
-        #print(f"AAHAHHH BOARD ={ board }")
-        # change here: used to return a node, we want the move that leads to this node
-        best_node, move_program = MCTS(board,board.BLUE,itermax)#, max_seconds = 15
-        #print("THIS SHOULD PRINT")
-        board.place(move_program, board.BLUE)
-        board.print()
-        if board.is_game_over(): 
-            print(loss_message_human)
-            board.print()
-            break
+
+        # move_human = board.get_move_list()[randint(
+        #     0, len(board.get_move_list())-1)]  # Random player
+        # board.place(move_human, board.RED)
+        # board.print()
+        # if board.is_game_over():
+        #     print(win_message_human)
+        #     board.print()
+        #     # break
+        #     return "rand"
 
 ##########################################################
 #               CODE BLOCK FOR AI VS AI                  #
 ##########################################################
+
 
 def main_AI_AI(bSize):
 
@@ -94,31 +106,36 @@ def main_AI_AI(bSize):
         #     else:
         #         move_blue = MCTS.MCTS(board,board.BLUE, itermax)
             # if max_seconds provided, the MCTS function plays upon time only and overlooks itermax
-            best_node_blue, move_blue = MCTS(board, board.BLUE, itermax) #, max_seconds = 15
-            board.place(move_blue,board.BLUE)
+        print("AI is thinking...")
+        best_node_blue, move_blue = MCTS(
+            board, board.BLUE, itermax)  # , max_seconds = 15
+        board.place(move_blue, board.BLUE)
+        board.print()
+        if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
+            print(win_message_blue)
             board.print()
-            if board.is_game_over(): # TODO: add condition for game over without no winning (board full)
-                print(win_message_blue)
-                board.print()
-            # break
-                return "blue" #???
-            
-            best_node_red, move_red = MCTS(board, board.RED, itermax)#, max_seconds = 15)
-            board.place(move_red, board.RED)
+        # break
+            return "blue"  # ???
+
+        best_node_red, move_red = MCTS(
+            board, board.RED, itermax)  # , max_seconds = 15)
+        board.place(move_red, board.RED)
+        board.print()
+        if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
+            print(win_message_red)
             board.print()
-            if board.is_game_over():  # TODO: add condition for game over without no winning (board full)
-                print(win_message_red)
-                board.print()
-            # break
-                return "red"
+        # break
+            return "red"
 
 
 if __name__ == '__main__':
-#     #call main for  AI-vs-AI or human-vs-AI
-     main_Human_AI(boardSize) #
-     #main_Human_AI(boardSize)
+    #     #call main for  AI-vs-AI or human-vs-AI
 
+    main_Human_AI(boardSize)
 
+    # # For test vs random player
+    # scores = []
+    # for g in range(10):
+    #     scores.append(main_Human_AI(boardSize))
 
-
-
+    # print(scores)
